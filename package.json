@@ -1,12 +1,27 @@
 {
   "name": "string-conv",
-  "version": "1.0.1",
-  "description": "A utility to convert strings to uppercase and lowercase",
-  "keywords": ["string", "converter", "uppercase", "lowercase", "utility"],
+  "version": "1.1.0",
+  "description": "A lightweight, zero-dependency TypeScript utility for string case conversion — camelCase, PascalCase, snake_case, kebab-case, slug, uppercase, lowercase, title case",
+  "keywords": [
+    "string",
+    "converter",
+    "camelcase",
+    "pascalcase",
+    "snakecase",
+    "kebabcase",
+    "slug",
+    "uppercase",
+    "lowercase",
+    "titlecase",
+    "utility",
+    "typescript"
+  ],
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "dev": "tsup src/index.ts --watch",
