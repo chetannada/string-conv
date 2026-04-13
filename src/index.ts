@@ -31,7 +31,7 @@ export function toLowerCase(str: string): string {
  * @param str - The input string
  * @returns The string in title case
  * @example
- * toTitleCase("hello world") // => "Hello World" 
+ * toTitleCase("hello world") // => "Hello World"
  */
 export function toTitleCase(str: string): string {
   if (typeof str !== "string") {
@@ -39,7 +39,8 @@ export function toTitleCase(str: string): string {
   }
   return str
     .toLowerCase()
-    .split(" ")
+    .split(/\s+/)
+    .filter(Boolean)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 }
