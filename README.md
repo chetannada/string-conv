@@ -5,7 +5,7 @@
 ![license](https://img.shields.io/npm/l/string-conv)
 ![types](https://img.shields.io/npm/types/string-conv)
 
-A lightweight, zero-dependency TypeScript utility for string case conversion, inspection, and manipulation. Convert strings between 11+ formats, detect case styles with validation guards, and use robust utilities for everyday string tasks. Works in both JavaScript and TypeScript projects.
+A lightweight, zero-dependency TypeScript utility for string case conversion, inspection, and manipulation. Convert strings between **18+ formats**, detect case styles with validation guards, and use robust utilities for everyday string tasks. Works in both JavaScript and TypeScript projects.
 
 📦 [View on npm](https://www.npmjs.com/package/string-conv)
 
@@ -16,7 +16,7 @@ A lightweight, zero-dependency TypeScript utility for string case conversion, in
 - ✅ **Hybrid Package** — Works seamlessly with ESM (`import`) and CommonJS (`require`).
 - ✅ **Robust Case Handling** — Handles edge cases like multiple spaces, special characters, and mixed-case inputs.
 - ✅ **Case Detection** — Identify case styles programmatically.
-- ✅ **Advanced Utilities** — Built-in support for truncation, word counting, padding, and more.
+- ✅ **Advanced Utilities** — Built-in support for HTML stripping, palindromes, truncation, and more.
 
 ## Installation
 
@@ -43,6 +43,13 @@ import {
   toDotCase,
   toSlug,
   fromSlug,
+  toInverseCase,
+  toReverseCase,
+  toTrainCase,
+  toPathCase,
+  toFlatCase,
+  toHeaderCase,
+  toSpongeCase,
   // Inspection
   detectCase,
   isCamelCase,
@@ -51,6 +58,8 @@ import {
   isKebabCase,
   isConstantCase,
   isDotCase,
+  isTrainCase,
+  isPathCase,
   // Utilities
   truncate,
   wordCount,
@@ -60,6 +69,9 @@ import {
   trimWords,
   padStart,
   padEnd,
+  stripHtml,
+  isPalindrome,
+  escapeHtml,
 } from "string-conv";
 ```
 
@@ -67,7 +79,6 @@ import {
 
 ```javascript
 const {
-  // Case transforms
   toUpperCase,
   toLowerCase,
   toTitleCase,
@@ -80,7 +91,13 @@ const {
   toDotCase,
   toSlug,
   fromSlug,
-  // Inspection
+  toInverseCase,
+  toReverseCase,
+  toTrainCase,
+  toPathCase,
+  toFlatCase,
+  toHeaderCase,
+  toSpongeCase,
   detectCase,
   isCamelCase,
   isPascalCase,
@@ -88,7 +105,8 @@ const {
   isKebabCase,
   isConstantCase,
   isDotCase,
-  // Utilities
+  isTrainCase,
+  isPathCase,
   truncate,
   wordCount,
   charCount,
@@ -97,6 +115,9 @@ const {
   trimWords,
   padStart,
   padEnd,
+  stripHtml,
+  isPalindrome,
+  escapeHtml,
 } = require("string-conv");
 ```
 
@@ -122,16 +143,15 @@ toLowerCase("HELLO WORLD"); // => "hello world"
 
 ### `toTitleCase(str: string): string`
 
-Converts a string to Title Case — first letter of each word capitalized.
+Converts to Title Case (first letter of each word capitalized).
 
 ```typescript
 toTitleCase("hello world"); // => "Hello World"
-toTitleCase("  hello   world  "); // => "Hello World"
 ```
 
 ### `toSentenceCase(str: string): string`
 
-Capitalizes only the first character and lowercases the rest.
+Capitalizes only the first character.
 
 ```typescript
 toSentenceCase("hello world"); // => "Hello world"
@@ -139,15 +159,11 @@ toSentenceCase("hello world"); // => "Hello world"
 
 ### `toCamelCase(str: string): string`
 
-Converts a string to camelCase.
-
 ```typescript
 toCamelCase("hello world"); // => "helloWorld"
 ```
 
 ### `toPascalCase(str: string): string`
-
-Converts a string to PascalCase (UpperCamelCase).
 
 ```typescript
 toPascalCase("hello world"); // => "HelloWorld"
@@ -155,15 +171,11 @@ toPascalCase("hello world"); // => "HelloWorld"
 
 ### `toSnakeCase(str: string): string`
 
-Converts a string to snake_case.
-
 ```typescript
 toSnakeCase("hello world"); // => "hello_world"
 ```
 
 ### `toKebabCase(str: string): string`
-
-Converts a string to kebab-case.
 
 ```typescript
 toKebabCase("hello world"); // => "hello-world"
@@ -171,35 +183,60 @@ toKebabCase("hello world"); // => "hello-world"
 
 ### `toConstantCase(str: string): string`
 
-Converts a string to CONSTANT_CASE (screaming snake case).
-
 ```typescript
 toConstantCase("hello world"); // => "HELLO_WORLD"
 ```
 
 ### `toDotCase(str: string): string`
 
-Converts a string to dot.case.
-
 ```typescript
 toDotCase("hello world"); // => "hello.world"
 ```
 
-### `toSlug(str: string): string`
+### `toInverseCase(str: string): string`
 
-Converts a string to a URL-friendly slug.
+Inverts character casing.
 
 ```typescript
-toSlug("Hello World!"); // => "hello-world"
+toInverseCase("Hello World"); // => "hELLO wORLD"
 ```
 
-### `fromSlug(str: string, titleCase?: boolean): string`
+### `toReverseCase(str: string): string`
 
-Converts a slug back into a readable string. Applies Title Case by default.
+Reverses characters.
 
 ```typescript
-fromSlug("hello-world"); // => "Hello World"
-fromSlug("hello-world", false); // => "hello world"
+toReverseCase("hello"); // => "olleh"
+```
+
+### `toTrainCase(str: string): string`
+
+```typescript
+toTrainCase("hello world"); // => "Hello-World"
+```
+
+### `toPathCase(str: string): string`
+
+```typescript
+toPathCase("hello world"); // => "hello/world"
+```
+
+### `toFlatCase(str: string): string`
+
+```typescript
+toFlatCase("Hello World"); // => "helloworld"
+```
+
+### `toHeaderCase(str: string): string`
+
+```typescript
+toHeaderCase("content type"); // => "Content-Type"
+```
+
+### `toSpongeCase(str: string): string`
+
+```typescript
+toSpongeCase("hello"); // => "hElLo" (random)
 ```
 
 ---
@@ -208,33 +245,43 @@ fromSlug("hello-world", false); // => "hello world"
 
 ### `detectCase(str: string): CaseType`
 
-Detects the case style of a string and returns a label.
+Detects the case style of a string.
 
 ```typescript
 detectCase("helloWorld"); // => "camelCase"
-detectCase("hello_world"); // => "snake_case"
 ```
 
-Possible return values (`CaseType`):
-`"camelCase"`, `"PascalCase"`, `"snake_case"`, `"kebab-case"`, `"CONSTANT_CASE"`, `"dot.case"`, `"Title Case"`, `"UPPERCASE"`, `"lowercase"`, `"unknown"`.
+Possible values: `"camelCase"`, `"PascalCase"`, `"snake_case"`, `"kebab-case"`, `"CONSTANT_CASE"`, `"dot.case"`, `"path/case"`, `"Train-Case"`, `"Title Case"`, `"UPPERCASE"`, `"lowercase"`, `"unknown"`.
 
 ### Validation guards
 
-Six boolean guards to check a specific case style:
-`isCamelCase`, `isPascalCase`, `isSnakeCase`, `isKebabCase`, `isConstantCase`, `isDotCase`.
-
-```typescript
-isCamelCase("helloWorld"); // => true
-isSnakeCase("helloWorld"); // => false
-```
+Boolean checks for specific styles: `isCamelCase`, `isPascalCase`, `isSnakeCase`, `isKebabCase`, `isConstantCase`, `isDotCase`, `isTrainCase`, `isPathCase`.
 
 ---
 
 ## API — Utilities
 
-### `truncate(str: string, maxLength: number, suffix?: string): string`
+### `stripHtml(str: string): string`
 
-Truncates a string. The suffix (default `"..."`) counts toward the `maxLength`.
+Removes HTML tags.
+
+```typescript
+stripHtml("<p>Hello <b>World</b></p>"); // => "Hello World"
+```
+
+### `isPalindrome(str: string, ignoreSpaces?: boolean): boolean`
+
+```typescript
+isPalindrome("racecar"); // => true
+```
+
+### `escapeHtml(str: string): string`
+
+```typescript
+escapeHtml("<b>Hi</b>"); // => "&lt;b&gt;Hi&lt;/b&gt;"
+```
+
+### `truncate(str: string, maxLength: number, suffix?: string): string`
 
 ```typescript
 truncate("Hello, World!", 8); // => "Hello..."
@@ -242,31 +289,11 @@ truncate("Hello, World!", 8); // => "Hello..."
 
 ### `wordCount(str: string): number`
 
-Counts the number of words in a string.
-
 ```typescript
-wordCount("hello world foo"); // => 3
-```
-
-### `charCount(str: string, excludeWhitespace?: boolean): number`
-
-Counts characters, optionally excluding whitespace.
-
-```typescript
-charCount("hello world", true); // => 10
-```
-
-### `countOccurrences(str: string, substring: string, caseSensitive?: boolean): number`
-
-Counts how many times a substring appears.
-
-```typescript
-countOccurrences("banana", "a"); // => 3
+wordCount("hello world"); // => 2
 ```
 
 ### `reverseWords(str: string): string`
-
-Reverses the order of words in a string.
 
 ```typescript
 reverseWords("hello world"); // => "world hello"
@@ -274,75 +301,32 @@ reverseWords("hello world"); // => "world hello"
 
 ### `trimWords(str: string): string`
 
-Trims edges and collapses internal whitespace to a single space.
+Collapses internal whitespace.
 
 ```typescript
 trimWords("  hello   world  "); // => "hello world"
 ```
 
-### `padStart(str: string, targetLength: number, fillChar?: string): string`
-
-Pads the start of a string to a target length.
-
-```typescript
-padStart("42", 5); // => "   42"
-padStart("42", 5, "0"); // => "00042"
-```
-
-### `padEnd(str: string, targetLength: number, fillChar?: string): string`
-
-Pads the end of a string to a target length.
-
-```typescript
-padEnd("hi", 5); // => "hi   "
-padEnd("hi", 5, "."); // => "hi..."
-```
-
 ---
 
-## Error Handling
+## Quick Reference Table
 
-All functions throw a `TypeError` if the input is not a string. `truncate` additionally throws a `RangeError` if `maxLength` is less than 1.
-
----
-
-## TypeScript Support
-
-This package is written in TypeScript and ships with built-in type declarations. No need to install `@types/string-conv`.
-
----
-
-## Quick Reference
-
-### Case transforms
-
-| Function         | Input            | Output          |
-| ---------------- | ---------------- | --------------- |
-| `toUpperCase`    | `"hello world"`  | `"HELLO WORLD"` |
-| `toLowerCase`    | `"HELLO WORLD"`  | `"hello world"` |
-| `toTitleCase`    | `"hello world"`  | `"Hello World"` |
-| `toSentenceCase` | `"hello world"`  | `"Hello world"` |
-| `toCamelCase`    | `"hello world"`  | `"helloWorld"`  |
-| `toPascalCase`   | `"hello world"`  | `"HelloWorld"`  |
-| `toSnakeCase`    | `"hello world"`  | `"hello_world"` |
-| `toKebabCase`    | `"hello world"`  | `"hello-world"` |
-| `toConstantCase` | `"hello world"`  | `"HELLO_WORLD"` |
-| `toDotCase`      | `"hello world"`  | `"hello.world"` |
-| `toSlug`         | `"Hello World!"` | `"hello-world"` |
-| `fromSlug`       | `"hello-world"`  | `"Hello World"` |
-
-### Utilities
-
-| Function           | Input                 | Output          |
-| ------------------ | --------------------- | --------------- |
-| `truncate`         | `"Hello, World!", 8`  | `"Hello..."`    |
-| `wordCount`        | `"hello world foo"`   | `3`             |
-| `charCount`        | `"hello world"`       | `11`            |
-| `countOccurrences` | `"banana", "a"`       | `3`             |
-| `reverseWords`     | `"hello world"`       | `"world hello"` |
-| `trimWords`        | `"  hello   world  "` | `"hello world"` |
-| `padStart`         | `"42", 5, "0"`        | `"00042"`       |
-| `padEnd`           | `"hi", 5, "."`        | `"hi..."`       |
+| Function         | Input           | Output          |
+| :--------------- | :-------------- | :-------------- |
+| `toUpperCase`    | `"hello world"` | `"HELLO WORLD"` |
+| `toLowerCase`    | `"HELLO WORLD"` | `"hello world"` |
+| `toTitleCase`    | `"hello world"` | `"Hello World"` |
+| `toSentenceCase` | `"hello world"` | `"Hello world"` |
+| `toCamelCase`    | `"hello world"` | `"helloWorld"`  |
+| `toPascalCase`   | `"hello world"` | `"HelloWorld"`  |
+| `toSnakeCase`    | `"hello world"` | `"hello_world"` |
+| `toKebabCase`    | `"hello world"` | `"hello-world"` |
+| `toConstantCase` | `"hello world"` | `"HELLO_WORLD"` |
+| `toDotCase`      | `"hello world"` | `"hello.world"` |
+| `toInverseCase`  | `"Hello World"` | `"hELLO wORLD"` |
+| `toTrainCase`    | `"hello world"` | `"Hello-World"` |
+| `toPathCase`     | `"hello world"` | `"hello/world"` |
+| `toFlatCase`     | `"Hello World"` | `"helloworld"`  |
 
 ---
 

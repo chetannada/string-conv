@@ -7,6 +7,8 @@ export type CaseType =
   | "kebab-case"
   | "CONSTANT_CASE"
   | "dot.case"
+  | "path/case"
+  | "Train-Case"
   | "Title Case"
   | "UPPERCASE"
   | "lowercase"
@@ -30,6 +32,8 @@ export function detectCase(str: string): CaseType {
   if (isSnakeCase(str)) return "snake_case";
   if (isKebabCase(str)) return "kebab-case";
   if (isDotCase(str)) return "dot.case";
+  if (isTrainCase(str)) return "Train-Case";
+  if (isPathCase(str)) return "path/case";
   if (/^[A-Z][a-z]+(?:\s[A-Z][a-z]+)+$/.test(str)) return "Title Case";
   return "unknown";
 }
@@ -86,4 +90,22 @@ export function isConstantCase(str: string): boolean {
 export function isDotCase(str: string): boolean {
   ensureString(str);
   return /^[a-z][a-z0-9]*(?:\.[a-z0-9]+)*$/.test(str);
+}
+
+/**
+ * Returns true if the string is Train-Case
+ * @example isTrainCase("Hello-World") // => true
+ */
+export function isTrainCase(str: string): boolean {
+  ensureString(str);
+  return /^[A-Z][a-z0-9]*(?:-[A-Z][a-z0-9]*)*$/.test(str);
+}
+
+/**
+ * Returns true if the string is path/case
+ * @example isPathCase("hello/world") // => true
+ */
+export function isPathCase(str: string): boolean {
+  ensureString(str);
+  return /^[a-z0-9]+(?:\/[a-z0-9]+)*$/.test(str);
 }

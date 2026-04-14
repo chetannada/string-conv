@@ -12,6 +12,13 @@ import {
   toDotCase,
   toSlug,
   fromSlug,
+  toInverseCase,
+  toReverseCase,
+  toTrainCase,
+  toPathCase,
+  toFlatCase,
+  toHeaderCase,
+  toSpongeCase,
 } from "../index";
 
 describe("toUpperCase", () => {
@@ -350,5 +357,64 @@ describe("fromSlug", () => {
   });
   it("throws error for non-string input", () => {
     expect(() => fromSlug(123 as any)).toThrow(TypeError);
+  });
+});
+
+describe("toInverseCase", () => {
+  it("inverts casing", () => {
+    expect(toInverseCase("Hello World")).toBe("hELLO wORLD");
+  });
+  it("handles empty string", () => {
+    expect(toInverseCase("")).toBe("");
+  });
+});
+
+describe("toReverseCase", () => {
+  it("reverses characters", () => {
+    expect(toReverseCase("hello")).toBe("olleh");
+  });
+  it("handles multi-word strings", () => {
+    expect(toReverseCase("abc 123")).toBe("321 cba");
+  });
+});
+
+describe("toTrainCase", () => {
+  it("converts spaces to hyphens with capitalized words", () => {
+    expect(toTrainCase("hello world")).toBe("Hello-World");
+  });
+  it("handles existing snake_case", () => {
+    expect(toTrainCase("hello_world")).toBe("Hello-World");
+  });
+});
+
+describe("toPathCase", () => {
+  it("converts spaces to forward slashes", () => {
+    expect(toPathCase("hello world")).toBe("hello/world");
+  });
+  it("converts PascalCase to path", () => {
+    expect(toPathCase("HelloWorld")).toBe("hello/world");
+  });
+});
+
+describe("toFlatCase", () => {
+  it("removes all separators and lowercases", () => {
+    expect(toFlatCase("Hello World_Foo-Bar")).toBe("helloworldfoobar");
+  });
+});
+
+describe("toHeaderCase", () => {
+  it("converts to Header-Case (alias of Train-Case)", () => {
+    expect(toHeaderCase("content type")).toBe("Content-Type");
+  });
+});
+
+describe("toSpongeCase", () => {
+  it("returns a string of the same length", () => {
+    const input = "hello world";
+    expect(toSpongeCase(input).length).toBe(input.length);
+  });
+  it("returns a string that contains the same characters (case-insensitive)", () => {
+    const input = "abc";
+    expect(toSpongeCase(input).toLowerCase()).toBe("abc");
   });
 });

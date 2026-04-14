@@ -7,6 +7,8 @@ import {
   isKebabCase,
   isConstantCase,
   isDotCase,
+  isTrainCase,
+  isPathCase,
 } from "../index";
 
 describe("detectCase", () => {
@@ -42,6 +44,12 @@ describe("detectCase", () => {
   });
   it("throws error for non-string input", () => {
     expect(() => detectCase(123 as any)).toThrow(TypeError);
+  });
+  it("detects Train-Case", () => {
+    expect(detectCase("Hello-World")).toBe("Train-Case");
+  });
+  it("detects path/case", () => {
+    expect(detectCase("hello/world/test")).toBe("path/case");
   });
 });
 
@@ -198,5 +206,23 @@ describe("isDotCase", () => {
   });
   it("throws error for non-string input", () => {
     expect(() => isDotCase(123 as any)).toThrow(TypeError);
+  });
+});
+
+describe("isTrainCase", () => {
+  it("returns true for Train-Case", () => {
+    expect(isTrainCase("Hello-World")).toBe(true);
+  });
+  it("returns false for kebab-case", () => {
+    expect(isTrainCase("hello-world")).toBe(false);
+  });
+});
+
+describe("isPathCase", () => {
+  it("returns true for path/case", () => {
+    expect(isPathCase("usr/bin/local")).toBe(true);
+  });
+  it("returns false for spaces", () => {
+    expect(isPathCase("usr bin local")).toBe(false);
   });
 });

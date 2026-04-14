@@ -8,6 +8,9 @@ import {
   trimWords,
   padStart,
   padEnd,
+  stripHtml,
+  isPalindrome,
+  escapeHtml,
 } from "../index";
 
 describe("truncate", () => {
@@ -206,5 +209,34 @@ describe("padEnd", () => {
   });
   it("throws error for non-string input", () => {
     expect(() => padEnd(123 as any, 5)).toThrow(TypeError);
+  });
+});
+
+describe("stripHtml", () => {
+  it("removes basic tags", () => {
+    expect(stripHtml("<p>Hello</p>")).toBe("Hello");
+  });
+  it("removes nested tags", () => {
+    expect(stripHtml("<div><h1>Title</h1><p>Body</p></div>")).toBe("TitleBody");
+  });
+});
+
+describe("isPalindrome", () => {
+  it("identifies a simple palindrome", () => {
+    expect(isPalindrome("racecar")).toBe(true);
+  });
+  it("identifies a palindrome with spaces", () => {
+    expect(isPalindrome("A man a plan a canal Panama")).toBe(true);
+  });
+  it("returns false for non-palindromes", () => {
+    expect(isPalindrome("hello")).toBe(false);
+  });
+});
+
+describe("escapeHtml", () => {
+  it("escapes special characters", () => {
+    expect(escapeHtml('<b>"Me & You"</b>')).toBe(
+      "&lt;b&gt;&quot;Me &amp; You&quot;&lt;/b&gt;",
+    );
   });
 });

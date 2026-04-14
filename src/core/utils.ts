@@ -140,3 +140,38 @@ export function padEnd(
 ): string {
   return ensureString(str).padEnd(targetLength, fillChar);
 }
+
+/**
+ * Removes all HTML tags from a string
+ * @example stripHtml("<p>Hello <b>World</b></p>") // => "Hello World"
+ */
+export function stripHtml(str: string): string {
+  return ensureString(str).replace(/<[^>]*>/g, "");
+}
+
+/**
+ * Checks if a string is a palindrome
+ * @param str - The input string
+ * @param ignoreSpaces - Whether to ignore spaces (default: true)
+ * @example isPalindrome("racecar") // => true
+ */
+export function isPalindrome(str: string, ignoreSpaces = true): boolean {
+  let input = ensureString(str).toLowerCase();
+  if (ignoreSpaces) input = input.replace(/\s+/g, "");
+  return input === input.split("").reverse().join("");
+}
+
+/**
+ * Escapes characters for use in HTML
+ * @example escapeHtml("<b>Hi</b>") // => "&lt;b&gt;Hi&lt;/b&gt;"
+ */
+export function escapeHtml(str: string): string {
+  const map: Record<string, string> = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;",
+  };
+  return ensureString(str).replace(/[&<>"']/g, (m) => map[m]);
+}
