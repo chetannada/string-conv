@@ -1,6 +1,17 @@
+# Ignore all source files
 src/
+
+# Ignore configuration files
 tsconfig.json
-*.test.ts
-.github/
-test.mjs
 .vscode/
+.github/
+
+# Ignore all test files and folders
+tests/
+**/*.test.ts
+**/*.spec.ts
+test.mjs
+
+# Ignore logs and caches
+*.log
+.eslintcache

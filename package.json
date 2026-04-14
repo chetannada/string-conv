@@ -1,10 +1,11 @@
 {
   "name": "string-conv",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "A lightweight, zero-dependency TypeScript utility for string case conversion and inspection — camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE, dot.case, slug, sentence case, title case, plus detection, validation guards, and string utilities like truncate, wordCount, padStart, and more",
   "keywords": [
     "string",
     "converter",
+    "case-conversion",
     "camelcase",
     "pascalcase",
     "snakecase",
@@ -13,33 +14,33 @@
     "dotcase",
     "sentencecase",
     "slug",
-    "uppercase",
-    "lowercase",
     "titlecase",
     "detect-case",
-    "string-inspect",
-    "truncate",
-    "word-count",
-    "char-count",
-    "pad-string",
     "string-utils",
-    "utility",
     "typescript",
     "zero-dependency"
   ],
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
     "dev": "tsup src/index.ts --watch",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:build": "node test.mjs",
-    "prepublishOnly": "npm run build && npm run test"
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run build && npm run test && npm run test:build"
   },
   "homepage": "https://github.com/chetannada/string-conv#readme",
   "bugs": {
